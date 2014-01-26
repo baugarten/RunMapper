@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link type="stylesheet" href="css/common.css" />
-    <link type="stylesheet" href="css/google-map.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/google-map.css">
     <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/google-map.js"></script>
   </head>
-
+  <body>
+    <div id="map"></div>
+    <div id="ui">
+      <h1>Map My Run</h1>
+      <p>
+      </p>
+      <div id="journeywrapper">
+        <h2 id="mileage">0.0</h2>
+        <div id="journey">
+        </div>
+      </div>
+      <div id="returnHome" class="btn-primary">Return Home</div>
+    </div>
+  </body>
 </html>
