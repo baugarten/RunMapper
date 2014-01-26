@@ -117,31 +117,44 @@ $(function() {
     }, cb);
   };
 
-  var map = new Map(document.getElementById('map'), LAT, LNG, ZOOM);
-  window.map = map;
-
-  map.on('click', function(e) {
-    map.addDestination(e.latLng);
-  });
-  map.on('locationChange', function(latlng) {
-    if (map.destinations.length > 1) {
-      $returnHome.show();
-    } else {
-      $returnHome.hide();
-    }
-
-    $journey.html("");
-    map.destinations.forEach(function(destination) {
-      $("<h3/>", {
-        text: "Test"  
-      }).appendTo($journey);
-      $("<p />", {
-        text: destination.geocoded.formatted_address,
-        "data-latLng": destination.latLng
-      }).appendTo($journey);
+  var map;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      map = new Map(document.getElementById('map'), position.coords.latitude, position.coords.longitude, ZOOM);
+      init();
+    }, function() {
+      map = new Map(document.getElementById('map'), LAT, LNG, ZOOM);
+      init();
     });
-    renderMileage();
-  });
+  } else {
+    map = new Map(document.getElementById('map'), LAT, LNG, ZOOM);
+    init();
+  }
+
+  function init() {
+    map.on('click', function(e) {
+      map.addDestination(e.latLng);
+    });
+    map.on('locationChange', function(latlng) {
+      if (map.destinations.length > 1) {
+        $returnHome.show();
+      } else {
+        $returnHome.hide();
+      }
+
+      $journey.html("");
+      map.destinations.forEach(function(destination) {
+        $("<h3/>", {
+          text: "Test"  
+        }).appendTo($journey);
+        $("<p />", {
+          text: destination.geocoded.formatted_address,
+          "data-latLng": destination.latLng
+        }).appendTo($journey);
+      });
+      renderMileage();
+    });
+  }
 
   var renderMileage = function(mileage) {
     if (mileage) {
